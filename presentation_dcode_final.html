@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentation du Code - Analyseur de Données LinkedIn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        header {
+            border-bottom: 3px solid #34495e;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+        
+        h2 {
+            color: #34495e;
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #34495e;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p, li {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #c7254e;
+        }
+        
+        pre {
+            background-color: #f8f9fa;
+            border-left: 4px solid #34495e;
+            padding: 15px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            color: #2c3e50;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .highlight-box {
+            background-color: #ecf0f1;
+            border-left: 4px solid #34495e;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .key-point {
+            background-color: #e8f4f8;
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .code-line {
+            background-color: #fafafa;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-left: 3px solid #95a5a6;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+            text-align: center;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Analyseur de Données LinkedIn RGPD</h1>
+            <p class="subtitle">Documentation technique et explication du code Python</p>
+            <p class="subtitle" style="margin-top: 20px; font-size: 1em;">
+                <strong>Réalisé par :</strong><br>
+                BAH ALPHA OUMAR<br>
+                DIALLO ALPHA OUMAR<br>
+                YAYE FATOU GNINGUE
+            </p>
+        </header>
+
+        <div class="section">
+            <h2>1. Vue d'ensemble du projet</h2>
+            
+            <p>Ce projet implémente une application web interactive permettant d'analyser les données d'export RGPD de LinkedIn. L'application est construite avec Streamlit, offrant une interface utilisateur intuitive pour visualiser et comprendre ses activités de recherche d'emploi.</p>
+            
+            <div class="highlight-box">
+                <strong>Objectif principal :</strong> Transformer des données brutes d'export LinkedIn en insights actionnables sur sa démarche de candidature.
+            </div>
+
+            <h3>Technologies utilisées</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bibliothèque</th>
+                        <th>Rôle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>streamlit</code></td>
+                        <td>Framework pour créer l'interface web interactive</td>
+                    </tr>
+                    <tr>
+                        <td><code>pandas</code></td>
+                        <td>Manipulation et nettoyage des données</td>
+                    </tr>
+                    <tr>
+                        <td><code>plotly.express</code></td>
+                        <td>Création de visualisations interactives</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>2. Importation des bibliothèques</h2>
+            
+            <pre><code>import streamlit as st
+import pandas as pd
+import plotly.express as px</code></pre>
+
+            <p>Ces trois importations constituent la base de l'application :</p>
+            
+            <div class="code-line">
+                <code>import streamlit as st</code> : Streamlit permet de créer rapidement des applications web interactives sans avoir à écrire de HTML/CSS. L'alias <code>st</code> est la convention standard.
+            </div>
+            
+            <div class="code-line">
+                <code>import pandas as pd</code> : Pandas est la bibliothèque de référence pour la manipulation de données tabulaires en Python. Elle fournit la structure DataFrame qui sera utilisée tout au long du code.
+            </div>
+            
+            <div class="code-line">
+                <code>import plotly.express as px</code> : Plotly Express permet de créer des graphiques interactifs en quelques lignes de code. L'alias <code>px</code> simplifie l'écriture.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. Fonctions utilitaires</h2>
+            
+            <h3>3.1. Fonction extract_city()</h3>
+            
+            <pre><code>def extract_city(title):
+    """Extrait la ville à partir du titre du poste."""
+    if not isinstance(title, str):
+        return "Non spécifié"
+    if '-' in title:
+        return title.split('-')[-1].strip()
+    return "Non spécifié"</code></pre>
+
+            <p>Cette fonction extrait la ville depuis le titre d'un poste. Explication ligne par ligne :</p>
+
+            <div class="code-line">
+                <code>if not isinstance(title, str):</code> : Vérifie que la valeur reçue est bien une chaîne de caractères. Cela évite les erreurs si on reçoit <code>None</code>, un nombre, ou tout autre type.
+            </div>
+
+            <div class="code-line">
+                <code>return "Non spécifié"</code> : Si ce n'est pas une chaîne, on retourne une valeur par défaut plutôt que de générer une erreur.
+            </div>
+
+            <div class="code-line">
+                <code>if '-' in title:</code> : Vérifie si le titre contient un tiret. Beaucoup d'offres suivent le format "Poste - Ville".
+            </div>
+
+            <div class="code-line">
+                <code>return title.split('-')[-1].strip()</code> : <code>split('-')</code> découpe la chaîne à chaque tiret et crée une liste. <code>[-1]</code> prend le dernier élément de cette liste. <code>strip()</code> supprime les espaces avant et après.
+            </div>
+
+            <h3>3.2. Fonction extract_contract_type()</h3>
+            
+            <pre><code>def extract_contract_type(title):
+    """Détermine le type de contrat (Stage, Alternance, Autre)."""
+    if not isinstance(title, str):
+        return "Autre"
+    
+    title_lower = title.lower()
+    if 'stage' in title_lower:
+        return 'Stage'
+    elif 'alternance' in title_lower:
+        return 'Alternance'
+    return 'Autre'</code></pre>
+
+            <p>Cette fonction catégorise le type de contrat à partir du titre :</p>
+
+            <div class="code-line">
+                <code>title_lower = title.lower()</code> : Convertit tout le texte en minuscules pour rendre la recherche insensible à la casse. Ainsi "STAGE", "Stage" et "stage" seront tous détectés.
+            </div>
+
+            <div class="code-line">
+                <code>if 'stage' in title_lower:</code> : Cherche le mot "stage" n'importe où dans le titre. Si trouvé, retourne 'Stage'.
+            </div>
+
+            <div class="code-line">
+                <code>elif 'alternance' in title_lower:</code> : Si "stage" n'a pas été trouvé, cherche "alternance". Le <code>elif</code> assure que seule une catégorie est retournée.
+            </div>
+
+            <div class="code-line">
+                <code>return 'Autre'</code> : Si aucun mot-clé n'est trouvé, la fonction classe le poste dans "Autre".
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. Fonctions de traitement des données</h2>
+
+            <h3>4.1. Fonction load_file()</h3>
+            
+            <pre><code>def load_file(uploaded_file):
+    """Charge un fichier Excel/CSV selon son extension."""
+    try:
+        if uploaded_file.name.endswith('.ods'):
+            return pd.read_excel(uploaded_file, engine="odf")
+        elif uploaded_file.name.endswith('.xlsx'):
+            return pd.read_excel(uploaded_file)
+        else:
+            return pd.read_csv(uploaded_file)
+    except Exception as e:
+        st.error(f"Erreur de lecture : {e}")
+        return pd.DataFrame()</code></pre>
+
+            <p>Cette fonction gère le chargement de différents formats de fichiers :</p>
+
+            <div class="code-line">
+                <code>try:</code> : Début du bloc de gestion d'erreur. Tout le code à l'intérieur sera protégé contre les exceptions.
+            </div>
+
+            <div class="code-line">
+                <code>if uploaded_file.name.endswith('.ods'):</code> : Vérifie si le nom du fichier se termine par .ods (format LibreOffice/OpenDocument).
+            </div>
+
+            <div class="code-line">
+                <code>return pd.read_excel(uploaded_file, engine="odf")</code> : Utilise le moteur ODF spécifique pour lire les fichiers .ods. Sans ce paramètre, pandas ne pourrait pas lire ce format.
+            </div>
+
+            <div class="code-line">
+                <code>elif uploaded_file.name.endswith('.xlsx'):</code> : Si ce n'est pas un .ods, vérifie si c'est un .xlsx (format Excel moderne).
+            </div>
+
+            <div class="code-line">
+                <code>return pd.read_excel(uploaded_file)</code> : Pour les fichiers Excel, pandas utilise automatiquement le bon moteur.
+            </div>
+
+            <div class="code-line">
+                <code>else: return pd.read_csv(uploaded_file)</code> : Si ce n'est ni .ods ni .xlsx, on suppose que c'est un CSV et on utilise <code>read_csv()</code>.
+            </div>
+
+            <div class="code-line">
+                <code>except Exception as e:</code> : Capture toutes les erreurs possibles (fichier corrompu, format invalide, etc.) et les stocke dans la variable <code>e</code>.
+            </div>
+
+            <div class="code-line">
+                <code>st.error(f"Erreur de lecture : {e}")</code> : Affiche un message d'erreur rouge dans l'interface Streamlit avec les détails de l'erreur.
+            </div>
+
+            <div class="code-line">
+                <code>return pd.DataFrame()</code> : Retourne un DataFrame vide plutôt que de faire planter l'application. Cela permet au code de continuer à fonctionner.
+            </div>
+
+            <h3>4.2. Fonction clean_application_data()</h3>
+            
+            <p>Cette fonction est le cœur du nettoyage des données. Je vais détailler chaque étape :</p>
+
+            <pre><code>def clean_application_data(df):
+    # Nettoyage des noms de colonnes
+    df.columns = [c.strip() for c in df.columns]
+    cols = df.columns.tolist()</code></pre>
+
+            <div class="code-line">
+                <code>df.columns = [c.strip() for c in df.columns]</code> : List comprehension qui parcourt tous les noms de colonnes et supprime les espaces avant/après. Par exemple, " Date " devient "Date".
+            </div>
+
+            <div class="code-line">
+                <code>cols = df.columns.tolist()</code> : Convertit les noms de colonnes en liste Python classique pour faciliter les vérifications ultérieures avec <code>in</code>.
+            </div>
+
+            <pre><code>    # Renommage standard
+    if 'Reponse' in cols:
+        df.rename(columns={'Reponse': 'Statut'}, inplace=True)
+    if 'Lien_Offre' in cols:
+        df.rename(columns={'Lien_Offre': 'Job Url'}, inplace=True)</code></pre>
+
+            <div class="code-line">
+                <code>if 'Reponse' in cols:</code> : Vérifie si la colonne "Reponse" existe dans le DataFrame.
+            </div>
+
+            <div class="code-line">
+                <code>df.rename(columns={'Reponse': 'Statut'}, inplace=True)</code> : Renomme la colonne. Le paramètre <code>inplace=True</code> modifie directement le DataFrame au lieu de créer une copie.
+            </div>
+
+            <pre><code>    # Gestion du statut par défaut
+    if 'Statut' not in df.columns:
+        df['Statut'] = 'En attente'
+    
+    df['Statut'] = df['Statut'].fillna('En attente').replace('', 'En attente')</code></pre>
+
+            <div class="code-line">
+                <code>if 'Statut' not in df.columns:</code> : Si la colonne Statut n'existe pas, on la crée.
+            </div>
+
+            <div class="code-line">
+                <code>df['Statut'] = 'En attente'</code> : Initialise tous les statuts à "En attente" si la colonne n'existait pas.
+            </div>
+
+            <div class="code-line">
+                <code>df['Statut'].fillna('En attente')</code> : Remplace toutes les valeurs <code>NaN</code> (Not a Number, valeurs manquantes) par "En attente".
+            </div>
+
+            <div class="code-line">
+                <code>.replace('', 'En attente')</code> : Remplace également les chaînes vides par "En attente". On enchaîne les opérations pour gérer tous les cas.
+            </div>
+
+            <pre><code>    # Gestion des dates
+    col_date = 'Date' if 'Date' in cols else 'Application Date'
+    
+    df['Date'] = pd.to_datetime(
+        df[col_date], 
+        format="%m/%d/%y, %I:%M %p", 
+        errors='coerce'
+    )
+    df['Mois'] = df['Date'].dt.strftime('%Y-%m')</code></pre>
+
+            <div class="code-line">
+                <code>col_date = 'Date' if 'Date' in cols else 'Application Date'</code> : Expression ternaire qui choisit le nom de colonne à utiliser. Si "Date" existe, on l'utilise, sinon on utilise "Application Date".
+            </div>
+
+            <div class="code-line">
+                <code>pd.to_datetime(df[col_date], format="%m/%d/%y, %I:%M %p", errors='coerce')</code> : Convertit les chaînes de texte en objets datetime. Le format spécifie comment lire la date (mois/jour/année, heure:minute AM/PM).
+            </div>
+
+            <div class="code-line">
+                <code>errors='coerce'</code> : Paramètre crucial qui convertit les dates invalides en <code>NaT</code> (Not a Time) au lieu de générer une erreur. Cela permet de continuer le traitement même avec des données imparfaites.
+            </div>
+
+            <div class="code-line">
+                <code>df['Mois'] = df['Date'].dt.strftime('%Y-%m')</code> : Extrait l'année et le mois de chaque date et le formate comme "2024-03". L'accesseur <code>.dt</code> permet d'appliquer des opérations temporelles sur une colonne de dates.
+            </div>
+
+            <pre><code>    # Feature Engineering
+    df['Ville'] = df['Job Title'].apply(extract_city)
+    df['Contrat'] = df['Job Title'].apply(extract_contract_type)
+    
+    return df</code></pre>
+
+            <div class="code-line">
+                <code>df['Job Title'].apply(extract_city)</code> : La méthode <code>apply()</code> applique la fonction <code>extract_city</code> à chaque élément de la colonne 'Job Title'. Cela crée une nouvelle colonne 'Ville'.
+            </div>
+
+            <div class="code-line">
+                <code>return df</code> : Retourne le DataFrame nettoyé et enrichi avec toutes les transformations appliquées.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>5. Fonction principale et interface</h2>
+
+            <h3>5.1. Configuration initiale</h3>
+            
+            <pre><code>def main():
+    st.set_page_config(page_title="Projet RGPD Complet", layout="wide")
+    st.title("Analyseur de Données LinkedIn (Version Finale)")</code></pre>
+
+            <div class="code-line">
+                <code>st.set_page_config()</code> : Configure les paramètres globaux de la page. Doit être appelé en premier.
+            </div>
+
+            <div class="code-line">
+                <code>layout="wide"</code> : Utilise toute la largeur de l'écran au lieu d'une colonne centrale étroite.
+            </div>
+
+            <h3>5.2. Système de chargement des fichiers</h3>
+            
+            <pre><code>    st.sidebar.header("Importez vos fichiers")
+    uploaded_files = st.sidebar.file_uploader(
+        "Glissez vos fichiers ici", 
+        accept_multiple_files=True
+    )
+    
+    data_store = {}</code></pre>
+
+            <div class="code-line">
+                <code>st.sidebar</code> : Tous les éléments placés dans le sidebar apparaissent dans une barre latérale à gauche de l'écran.
+            </div>
+
+            <div class="code-line">
+                <code>st.sidebar.file_uploader()</code> : Crée un widget permettant de télécharger des fichiers depuis l'ordinateur de l'utilisateur.
+            </div>
+
+            <div class="code-line">
+                <code>accept_multiple_files=True</code> : Permet de sélectionner et télécharger plusieurs fichiers en même temps.
+            </div>
+
+            <div class="code-line">
+                <code>data_store = {}</code> : Dictionnaire vide qui stockera les différents DataFrames chargés. Les clés seront 'APPS', 'SAVED', 'PREFS'.
+            </div>
+
+            <h3>5.3. Traitement des fichiers uploadés</h3>
+            
+            <pre><code>    if uploaded_files:
+        for file in uploaded_files:
+            df_raw = load_file(file)
+            
+            if df_raw.empty:
+                continue
+
+            cols = [c.strip() for c in df_raw.columns]
+            
+            if 'Application Date' in cols or 'Date' in cols:
+                df_clean = clean_application_data(df_raw)
+                data_store['APPS'] = df_clean
+                st.sidebar.success(f"Candidatures ({len(df_clean)})")</code></pre>
+
+            <div class="code-line">
+                <code>if uploaded_files:</code> : Vérifie que l'utilisateur a uploadé au moins un fichier. Si la liste est vide, cette condition est <code>False</code>.
+            </div>
+
+            <div class="code-line">
+                <code>for file in uploaded_files:</code> : Boucle qui traite chaque fichier uploadé individuellement.
+            </div>
+
+            <div class="code-line">
+                <code>if df_raw.empty: continue</code> : Si le chargement a échoué et retourné un DataFrame vide, passe au fichier suivant avec <code>continue</code>.
+            </div>
+
+            <div class="code-line">
+                <code>if 'Application Date' in cols or 'Date' in cols:</code> : Détecte automatiquement le type de fichier en cherchant des colonnes caractéristiques.
+            </div>
+
+            <div class="code-line">
+                <code>st.sidebar.success()</code> : Affiche un message de confirmation vert dans la barre latérale avec le nombre de candidatures chargées.
+            </div>
+
+            <h3>5.4. Calcul des KPIs</h3>
+            
+            <pre><code>    if 'APPS' in data_store:
+        df = data_store['APPS']
+        
+        total = len(df)
+        nb_refus = len(df[df['Statut'] == 'Refus'])
+        if total > 0:
+            taux_refus = (nb_refus / total) * 100
+        else:
+            taux_refus = 0
+            
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total Candidatures", total)
+        col2.metric("Refus Déclarés", nb_refus)
+        col3.metric("Taux de Refus", f"{taux_refus:.1f}%")</code></pre>
+
+            <div class="code-line">
+                <code>if 'APPS' in data_store:</code> : Vérifie qu'on a bien chargé des données de candidatures avant de continuer.
+            </div>
+
+            <div class="code-line">
+                <code>len(df)</code> : Retourne le nombre de lignes du DataFrame, donc le nombre total de candidatures.
+            </div>
+
+            <div class="code-line">
+                <code>df[df['Statut'] == 'Refus']</code> : Filtre le DataFrame pour ne garder que les lignes où le statut est "Refus". C'est un booléan indexing.
+            </div>
+
+            <div class="code-line">
+                <code>len(df[df['Statut'] == 'Refus'])</code> : Compte le nombre de refus en prenant la longueur du DataFrame filtré.
+            </div>
+
+            <div class="code-line">
+                <code>if total > 0:</code> : Protection contre la division par zéro. On calcule le taux uniquement s'il y a des candidatures.
+            </div>
+
+            <div class="code-line">
+                <code>col1, col2, col3 = st.columns(3)</code> : Crée trois colonnes de largeur égale pour afficher les métriques côte à côte.
+            </div>
+
+            <div class="code-line">
+                <code>f"{taux_refus:.1f}%"</code> : Formate le nombre avec une décimale (.1f) et ajoute le symbole %.
+            </div>
+
+            <h3>5.5. Visualisations</h3>
+            
+            <pre><code>        fig_statut = px.pie(
+            df, 
+            names='Statut', 
+            hole=0.4, 
+            color_discrete_sequence=px.colors.sequential.RdBu
+        )
+        st.plotly_chart(fig_statut, use_container_width=True)</code></pre>
+
+            <div class="code-line">
+                <code>px.pie()</code> : Crée un graphique en camembert (pie chart) avec Plotly Express.
+            </div>
+
+            <div class="code-line">
+                <code>names='Statut'</code> : Utilise la colonne 'Statut' pour créer les différentes parts du graphique.
+            </div>
+
+            <div class="code-line">
+                <code>hole=0.4</code> : Crée un trou au centre (40% du rayon), transformant le pie chart en donut chart pour une meilleure lisibilité.
+            </div>
+
+            <div class="code-line">
+                <code>color_discrete_sequence=px.colors.sequential.RdBu</code> : Applique une palette de couleurs Rouge-Bleu de Plotly.
+            </div>
+
+            <div class="code-line">
+                <code>use_container_width=True</code> : Le graphique s'adapte automatiquement à la largeur de son conteneur.
+            </div>
+
+            <pre><code>        timeline = df.groupby('Mois').size().reset_index(name='Volume')
+        fig_time = px.bar(timeline, x='Mois', y='Volume')</code></pre>
+
+            <div class="code-line">
+                <code>df.groupby('Mois')</code> : Regroupe toutes les lignes ayant le même mois ensemble.
+            </div>
+
+            <div class="code-line">
+                <code>.size()</code> : Compte le nombre d'éléments dans chaque groupe.
+            </div>
+
+            <div class="code-line">
+                <code>.reset_index(name='Volume')</code> : Transforme le résultat en DataFrame avec deux colonnes : 'Mois' et 'Volume'.
+            </div>
+
+            <div class="code-line">
+                <code>px.bar()</code> : Crée un graphique en barres. <code>x='Mois'</code> définit l'axe horizontal et <code>y='Volume'</code> la hauteur des barres.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. Démonstration pratique</h2>
+            
+            <p>Pour valider le bon fonctionnement de l'application, je vais maintenant procéder à une démonstration en direct. Cette démonstration permettra de visualiser concrètement comment l'outil traite les données d'export LinkedIn et génère les différentes analyses et visualisations présentées dans ce document.</p>
+        </div>
+
+        <div class="section">
+            <h2>7. Conclusion</h2>
+            
+            <p>Ce projet démontre la capacité à transformer des données brutes d'export RGPD en un outil d'analyse fonctionnel et interactif. L'architecture modulaire du code garantit sa maintenabilité et son évolutivité. L'application offre une solution concrète pour exploiter ses données personnelles et optimiser sa stratégie de recherche d'emploi.</p>
+        </div>
+
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>
