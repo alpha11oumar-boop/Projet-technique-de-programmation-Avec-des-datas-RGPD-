@@ -1,4 +1,5 @@
 # Projet-technique-de-programmation-Avec-des-datas-RGPD-
+# Nom des membres : ALPHA OUMAR BAH, ALPHA OUMAR DIALLO et YAYE FATOU GNINGUE
 Analyseur de données linkedin RGPD
 import streamlit as st
 import pandas as pd
